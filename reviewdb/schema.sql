@@ -1,16 +1,9 @@
 -- sql file to generate database
-CREATE TABLE language(
+CREATE TABLE director (
     id INT GENERATED ALWAYS AS IDENTITY,
-    language_name VARCHAR,
+    director_name VARCHAR,
     PRIMARY KEY (id)
-);
-
-CREATE TABLE country(
-    id INT GENERATED ALWAYS AS IDENTITY,
-    country_name VARCHAR,
-    PRIMARY KEY (id)
-);
-
+)
 CREATE TABLE STUDIO (
     id INT GENERATED ALWAYS AS IDENTITY,
     STUDIO_NAME VARCHAR,
@@ -39,15 +32,13 @@ CREATE TABLE movie(
     score FLOAT,
     overview VARCHAR,
     studio_id INT,
-    language_id INT,
+    director_id INT,
     budget FlOAT,
     revenue FLOAT,
-    country_id INT,
     cover_url VARCHAR,
     PRIMARY KEY (id),
     FOREIGN KEY (studio_id) REFERENCES STUDIO(id),
-    FOREIGN KEY (language_id) REFERENCES language(id),
-    FOREIGN KEY (country_id) REFERENCES country(id)
+    FOREIGN KEY (director_id) REFERENCES director(id)
 );
 
 CREATE TABLE movie_genres(
