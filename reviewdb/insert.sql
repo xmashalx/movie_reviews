@@ -105,40 +105,36 @@ INSERT INTO movie_genres (movie_id, genre_id)
   );
 
 -- insert user (you)
-INSERT INTO users (user_name, BIO, CREATED_AT, UPDATED_AT)
-  VALUES ('mashal', 'lover of horror films', CURRENT_DATE, CURRENT_DATE);
+INSERT INTO users (user_name, BIO)
+  VALUES ('Mashal', 'Lover of horror films.');
 
 -- insert a review by you
-INSERT INTO review (movie_id, user_id, rating, review_text, CREATED_AT, UPDATED_AT)
+INSERT INTO review (movie_id, user_id, rating, review_text, CREATED_AT)
   VALUES (
     (SELECT id FROM movie WHERE title = 'Princess Mononoke'),
-    (SELECT id FROM users WHERE user_name = 'mashal'),
+    (SELECT id FROM users WHERE user_name = 'Mashal'),
     5,
     'A brutal but beautiful tale surrounding magical forests, severed limbs and the interaction between humans and our planet',
-    CURRENT_DATE,
     CURRENT_DATE
   ),
   (
    (SELECT id FROM movie WHERE title = 'Howls Moving Castle'),
-    (SELECT id FROM users WHERE user_name = 'mashal'),
+    (SELECT id FROM users WHERE user_name = 'Mashal'),
     5,
     'A film with a magical setting, a mix of weird charming and relatable characters, and a bizarre dream like storyline.',
-    CURRENT_DATE,
-    CURRENT_DATE 
+    CURRENT_DATE
   ),
   (
     (SELECT id FROM movie WHERE title = 'Lady Bird'),
-    (SELECT id FROM users WHERE user_name = 'mashal'),
+    (SELECT id FROM users WHERE user_name = 'Mashal'),
     5,
-    'A great coming of age film and one of the few that portray the complexity of a mother daughter relationship',
-    CURRENT_DATE,
+    'A great coming of age film and one of the few that portray the complexity of a mother daughter relationship.',
     CURRENT_DATE
   ),
   (
     (SELECT id FROM movie WHERE title = 'Dead Poets Society'),
-    (SELECT id FROM users WHERE user_name = 'mashal'),
+    (SELECT id FROM users WHERE user_name = 'Mashal'),
     5,
     'Traumatising.',
-    CURRENT_DATE,
     CURRENT_DATE
   );

@@ -14,8 +14,6 @@ CREATE TABLE users(
     id INT GENERATED ALWAYS AS IDENTITY,
     user_name VARCHAR,
     BIO VARCHAR,
-    CREATED_AT DATE,
-    UPDATED_AT DATE,
     PRIMARY KEY (id)
 );
 
@@ -57,7 +55,6 @@ CREATE TABLE review(
     rating INT,
     review_text VARCHAR,
     CREATED_AT DATE,
-    UPDATED_AT DATE,
     PRIMARY KEY (id),
     FOREIGN KEY (movie_id) REFERENCES movie(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
