@@ -1,8 +1,8 @@
 -- insert director
-INSERT INTO director (director_name) VALUES ('Hayao Miyazaki', 'Greta Gerwig', 'Peter Weir');
+INSERT INTO director (director_name) VALUES ('Hayao Miyazaki'), ('Greta Gerwig'), ('Peter Weir');
 
 -- insert studio
-INSERT INTO STUDIO (STUDIO_NAME) VALUES ('Studio Ghibli', 'A24', 'Touchstone Pictures');
+INSERT INTO STUDIO (STUDIO_NAME) VALUES ('Studio Ghibli'), ('A24'),('Touchstone Pictures');
 
 -- insert movie
 INSERT INTO movie (title, release_date, score, overview, studio_id, director_id, budget, revenue, cover_url)
@@ -10,16 +10,14 @@ VALUES (
   'Princess Mononoke',
   '1997-07-12',
   93.0,
-  'The fate of the world rests on the courage of one warrior.
-Ashitaka, a prince of the disappearing Emishi people, is cursed by a demonized boar god and must journey to the west to find a cure.
-Along the way, he encounters San, a young human woman fighting to protect the forest, and Lady Eboshi, who is trying to destroy it. Ashitaka must find a way to bring balance to this conflict.',
+  'The fate of the world rests on the courage of one warrior. Ashitaka, a prince of the disappearing Emishi people, is cursed by a demonized boar god and must journey to the west to find a cure. Along the way, he encounters San, a young human woman fighting to protect the forest, and Lady Eboshi, who is trying to destroy it. Ashitaka must find a way to bring balance to this conflict.',
   (SELECT id FROM STUDIO WHERE STUDIO_NAME = 'Studio Ghibli'),
   (SELECT id FROM director WHERE director_name = 'Hayao Miyazaki'),
   23500000,
   176506186,
   'https://m.media-amazon.com/images/M/MV5BZTcyN2Y0MDYtMGI1NC00MWQ1LWFhZGMtN2U4NTcxZGYyNjljXkEyXkFqcGc@._V1_.jpg'
 ), 
-("Howl's Moving Castle",
+('Howls Moving Castle',
   '2004-11-20',
   88.0,
   'Sophie has an uneventful life at her late fathers hat shop, but all that changes when she befriends wizard Howl, who lives in a magical flying castle. However, the evil Witch of Waste takes issue and casts a spell on young sophie aging her prematurely. Now Howl must use all his magical talents to battle the witch and return sophie to her youth. ',
@@ -44,12 +42,12 @@ Along the way, he encounters San, a young human woman fighting to protect the fo
   'Dead Poets Society',
   '1989-09-22',
   85.0,
-  "A group of students in a highly conservative boarding school learn to rebel against the status quo and find deeper meaning in life with the help of their new poetry teacher.",
+  'A group of students in a highly conservative boarding school learn to rebel against the status quo and find deeper meaning in life with the help of their new poetry teacher.',
   (SELECT id FROM STUDIO WHERE STUDIO_NAME = 'Touchstone Pictures'),
   (SELECT id FROM director WHERE director_name = 'Peter Weir'),
   16400000,
   235900000,
-  "https://resizing.flixster.com/DoSPDw8kGRPVM_1S1Y0GVUB9AYg=/fit-in/352x330/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/NowShowing/11995/11995_aa.jpg"
+  'https://resizing.flixster.com/DoSPDw8kGRPVM_1S1Y0GVUB9AYg=/fit-in/352x330/v2/https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/NowShowing/11995/11995_aa.jpg'
 );
 
 -- insert genre(s)
@@ -72,27 +70,27 @@ INSERT INTO movie_genres (movie_id, genre_id)
 
 INSERT INTO movie_genres (movie_id, genre_id)
   VALUES (
-    (SELECT id FROM movie WHERE title = "Howl's Moving Castle"),
+    (SELECT id FROM movie WHERE title = 'Howls Moving Castle'),
     (SELECT id FROM genre WHERE genre_name = 'Anime')
   ),
    (
-    (SELECT id FROM movie WHERE title = "Howl's Moving Castle"),
+    (SELECT id FROM movie WHERE title = 'Howls Moving Castle'),
     (SELECT id FROM genre WHERE genre_name = 'Fantasy')
   ), (
-    (SELECT id FROM movie WHERE title = "Howl's Moving Castle"),
+    (SELECT id FROM movie WHERE title = 'Howls Moving Castle'),
     (SELECT id FROM genre WHERE genre_name = 'Adventure')
   ), (
-    (SELECT id FROM movie WHERE title = "Howl's Moving Castle"),
+    (SELECT id FROM movie WHERE title = 'Howls Moving Castle'),
     (SELECT id FROM genre WHERE genre_name = 'Romance')
   );
 
 INSERT INTO movie_genres (movie_id, genre_id) 
   VALUES (
-    (SELECT id FROM movie WHERE title = "Lady Bird"),
+    (SELECT id FROM movie WHERE title = 'Lady Bird'),
     (SELECT id FROM genre WHERE genre_name = 'Comedy')
   ),
    (
-    (SELECT id FROM movie WHERE title = "Lady Bird"),
+    (SELECT id FROM movie WHERE title = 'Lady Bird'),
     (SELECT id FROM genre WHERE genre_name = 'Drama')
   );
 
@@ -121,18 +119,18 @@ INSERT INTO review (movie_id, user_id, rating, review_text, CREATED_AT, UPDATED_
     CURRENT_DATE
   ),
   (
-   (SELECT id FROM movie WHERE title = "Howl's Moving Castle"),
+   (SELECT id FROM movie WHERE title = 'Howls Moving Castle'),
     (SELECT id FROM users WHERE user_name = 'mashal'),
     5,
-    "A film with a magical setting, a mix of weird charming and relatable characters, and a bizarre dream like storyline.",
+    'A film with a magical setting, a mix of weird charming and relatable characters, and a bizarre dream like storyline.',
     CURRENT_DATE,
     CURRENT_DATE 
   ),
   (
-    (SELECT id FROM movie WHERE title = 'Princess Mononoke'),
+    (SELECT id FROM movie WHERE title = 'Lady Bird'),
     (SELECT id FROM users WHERE user_name = 'mashal'),
     5,
-    "A great coming of age film and one of the few that portray the complexity of a mother daughter relationship",
+    'A great coming of age film and one of the few that portray the complexity of a mother daughter relationship',
     CURRENT_DATE,
     CURRENT_DATE
   ),
@@ -140,5 +138,7 @@ INSERT INTO review (movie_id, user_id, rating, review_text, CREATED_AT, UPDATED_
     (SELECT id FROM movie WHERE title = 'Dead Poets Society'),
     (SELECT id FROM users WHERE user_name = 'mashal'),
     5,
-    "Traumatising."
+    'Traumatising.',
+    CURRENT_DATE,
+    CURRENT_DATE
   );
