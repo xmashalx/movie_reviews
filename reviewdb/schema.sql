@@ -3,7 +3,7 @@ CREATE TABLE director (
     id INT GENERATED ALWAYS AS IDENTITY,
     director_name VARCHAR,
     PRIMARY KEY (id)
-)
+);
 CREATE TABLE STUDIO (
     id INT GENERATED ALWAYS AS IDENTITY,
     STUDIO_NAME VARCHAR,
@@ -62,3 +62,4 @@ CREATE TABLE review(
     FOREIGN KEY (movie_id) REFERENCES movie(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+\echo 'CREATED all tables: run the following command -> psql -d reviews -f insert.sql'
