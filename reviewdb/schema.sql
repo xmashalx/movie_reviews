@@ -14,6 +14,7 @@ CREATE TABLE users(
     id INT GENERATED ALWAYS AS IDENTITY,
     user_name VARCHAR,
     BIO VARCHAR,
+    user_password VARCHAR,
     PRIMARY KEY (id)
 );
 

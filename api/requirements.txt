@@ -3,4 +3,5 @@ pylint
 requests
 psycopg2-binary
 flask
-
+python-dotenv
+bcrypt
