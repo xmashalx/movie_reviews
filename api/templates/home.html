@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="nav-logo">🎬 Movie Reviews</h1>
+                <ul class="nav-menu">
+                    {% if session.user_id %}
+                    <li><a href="/user/{{ session.user_id }}">Profile</a></li>
+                    <li><a href="/logout">logout</a></li>
+                    <li><a href="/users">See peoples takes</a></li>
+                    {% else %}
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/users">See peoples takes</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Movie Reviews</h1>
+            <p>Browse movies, read reviews, share your thoughts.</p>
+        </div>
+    </div>
+
+    <form action="/" method="GET">
+        <input type="text" id="query" name="search" placeholder="Search...">
+        <select name="genre_id">
+            <option value="">Select a genre</option>
+                {% for genre in all_genres %}
+            <option value="{{ genre.id }}">{{ genre.genre_name }}</option>
+                {% endfor %}
+        </select>
+        <select name="director_id">
+            <option value="">Select a director</option>
+                {% for director in all_directors %}
+            <option value="{{ director.id }}">{{ director.director_name }}</option>
+                {% endfor %}
+        </select>
+        <select name="studio_id">
+            <option value="">Select a studio</option>
+                {% for studio in all_studios %}
+            <option value="{{ studio.id }}">{{ studio.studio_name }}</option>
+                {% endfor %}
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="movies-grid">
+        {% for movie in movies %}
+        <div class="movie_card">
+            <a href ="/movie/{{ movie.id }}">
+                <img src="{{ movie.cover_url }}" alt="{{ movie.title }}">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
