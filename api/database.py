@@ -21,7 +21,7 @@ def get_db_connection(config: _Environ) -> connection:
             # password=config.get("DATABASE_PASSWORD"),
             host=config.get("DATABASE_IP"),
             port=config.get("DATABASE_PORT"),
-            database=config.get("DATABASE_NAME")
+            database=config.get("DATABASE_NAME"),
             cursor_factory=RealDictCursor
         )
         return conn
@@ -123,8 +123,9 @@ def get_movie_by_id(conn: connection, id: int) -> dict:
 
 def get_reviews_for_movie(conn: connection, id: int) -> list[dict]:
     """get all the reviews for a movie and the user_name"""
-    query = """SELECT r.*, u.user_name FROM review as r
+    query = """SELECT r.*, u.user_name, m.title FROM review as r
     JOIN users as u ON(r.user_id=u.id)
+    JOIN movie as m ON(r.movie_id=m.id)
     WHERE movie_id = %s;"""
     with conn.cursor() as cur:
         cur.execute(query, (id,))
@@ -205,7 +206,7 @@ def get_user_by_id(conn: connection, user_id: int) -> dict:
     return results
 
 
-def add_user(conn: connection, username: str, password: str, bio: str) -> dict:
+def add_user(conn: connection, username: str, bio: str, password: str) -> dict:
     """Register a new user with hashed password"""
     check_query = "SELECT id FROM users WHERE user_name = %s"
     # Hash the password
@@ -214,7 +215,7 @@ def add_user(conn: connection, username: str, password: str, bio: str) -> dict:
     # Convert bytes to string for storage
     hashed_password_str = hashed_password.decode('utf-8')
 
-    query = """INSERT INTO users (user_name, user_password, BIO) 
+    query = """INSERT INTO users (user_name, BIO, user_password) 
                VALUES (%s, %s, %s) RETURNING id, user_name, bio;"""
 
     with conn.cursor() as cur:

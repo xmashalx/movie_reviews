@@ -105,7 +105,7 @@ INSERT INTO movie_genres (movie_id, genre_id)
   );
 
 -- insert user (you)
-INSERT INTO users (user_name, BIO)
+INSERT INTO users (user_name, BIO, password)
   VALUES ('Mashal', 'Lover of horror films.');
 
 -- insert a review by you

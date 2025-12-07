@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="nav-logo">🎬 Movie Reviews</h1>
+                <ul class="nav-menu">
+                    {% if session.user_id %}
+                    <li><a href ="/">home</a></li>
+                    <li><a href="/user/{{ session.user_id }}">Profile</a></li>
+                    <li><a href="/logout">logout</a></li>
+                    <li><a href="/users">See peoples takes</a></li>
+                    {% else %}
+                    <li><a href ="/">home</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/users">See peoples takes</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+    </nav>
+
+    <div class = "movie-heading">
+        <h1>{{movie.title}}, {{movie.release_date.year}}</h1>
+    </div>
+
+    <div class="movie-content">
+        <div class="movie_poster">
+            <img src="{{ movie.cover_url }}" alt="{{ movie.title }}">
+         </div>
+
+        <div class="movie-info">
+            <p><strong>Director:</strong> {{ movie.director_name }}</p>
+            <p><strong>Studio:</strong> {{ movie.studio_name }}</p>
+            <p><strong>Audience Rating:</strong> {{ movie.score }}</p>
+            <p><strong>Genres:</strong> 
+                {% for genre in genres %}
+                    {{ genre.genre_name }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+            <p><strong>Overview:</strong> {{ movie.overview }}</p>
+        </div>
+    </div>
+
+    {% if session.user_id %}
+    <div class="form_heading">
+        Write a Review
+    </div>
+    <form class="post_review" action="/movie/{{movie.id}}/review" method="POST">
+        <select name="rating">
+            <option value="">Rate the Movie out of 5</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <textarea id="review" name="review_text" placeholder="Write your review..." rows="4"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
+
+    <div class="Reviews-container">
+        {% for review in reviews %}
+        <div class="reviews">
+            <p>{{review.title}}</p>
+            <p><a href="/user/{{ review.user_id }}">{{review.user_name}}</a> {{review.rating}}/5</p>
+            <p>{{review.review_text}}</p>
+            <p>{{review.created_at}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -29,9 +29,6 @@ def home():
     movies = get_movies(conn, search, genre_id,
                         director_id, studio_id)
 
-    movie_ids = [movie['id'] for movie in movies]
-    genres_dict = get_genres_for_movies(conn, movie_ids)
-
     all_genres = get_all_genres(conn)
     all_directors = get_all_directors(conn)
     all_studios = get_all_studios(conn)
@@ -40,7 +37,6 @@ def home():
 
     return render_template('home.html',
                            movies=movies,
-                           genres_dict=genres_dict,
                            all_genres=all_genres,
                            all_directors=all_directors,
                            all_studios=all_studios)
@@ -109,7 +105,7 @@ def register():
         bio = request.form['bio']
         conn = get_db_connection(ENV)
         try:
-            new_user = add_user(conn, username, password, bio)
+            new_user = add_user(conn, username, bio, password)
             conn.close()
             session['user_id'] = new_user['id']
             return redirect(url_for('home'))

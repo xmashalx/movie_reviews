@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+            <div class="nav-container">
+                <h1 class="nav-logo">🎬 Movie Reviews</h1>
+                <ul class="nav-menu">
+                    {% if session.user_id %}
+                    <li><a href ="/">home</a></li>
+                    <li><a href="/user/{{ session.user_id }}">Profile</a></li>
+                    <li><a href="/logout">logout</a></li>
+                    <li><a href = "/users">See peoples takes</a></li>
+                    {% else %}
+                    <li><a href ="/">home</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href = "/users">See peoples takes</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+    </nav>
+
+    <div class="profile_heading">
+        <h1>
+            {{user_info.user_name}}
+        </h1>
+    </div>
+
+    <div class="BIO">
+        <p>
+            {{user_info.bio}}
+        </p>
+    </div>
+
+    <div class="Reviews-container">
+        {% for review in user_reviews %}
+        <div class="reviews">
+            <p><a href="/movie/{{review.movie_id}}">{{review.title}}</a> - {{review.rating}}/5</p>
+            <p>{{review.review_text}}</p>
+            <p>{{review.created_at}}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+</body>
+</html>
