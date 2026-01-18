@@ -18,7 +18,7 @@ def get_db_connection(config: _Environ) -> connection:
     try:
         conn = connect(
             user=config.get("DATABASE_USERNAME"),
-            # password=config.get("DATABASE_PASSWORD"),
+            password=config.get("DATABASE_PASSWORD"),
             host=config.get("DATABASE_IP"),
             port=config.get("DATABASE_PORT"),
             database=config.get("DATABASE_NAME"),

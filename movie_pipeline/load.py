@@ -2,14 +2,13 @@ import psycopg2
 from dotenv import load_dotenv
 import os
 
-
 def get_connection():
     return psycopg2.connect(
         host=os.getenv("DB_HOST"),
         database=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER")
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD")
     )
-
 
 def load_genres(genres: list[str]) -> dict:
     """Load genres into the database and return a mapping of genre names to IDs."""
