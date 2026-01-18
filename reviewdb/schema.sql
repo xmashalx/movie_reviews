@@ -1,18 +1,18 @@
 -- sql file to generate database
 CREATE TABLE director (
     id INT GENERATED ALWAYS AS IDENTITY,
-    director_name VARCHAR,
+    director_name VARCHAR UNIQUE,
     PRIMARY KEY (id)
 );
 CREATE TABLE STUDIO (
     id INT GENERATED ALWAYS AS IDENTITY,
-    STUDIO_NAME VARCHAR,
+    STUDIO_NAME VARCHAR UNIQUE,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE users(
     id INT GENERATED ALWAYS AS IDENTITY,
-    user_name VARCHAR,
+    user_name VARCHAR UNIQUE,
     BIO VARCHAR,
     user_password VARCHAR,
     PRIMARY KEY (id)
@@ -20,7 +20,7 @@ CREATE TABLE users(
 
 CREATE TABLE genre(
     id INT GENERATED ALWAYS AS IDENTITY,
-    genre_name VARCHAR,
+    genre_name VARCHAR UNIQUE,
     PRIMARY KEY (id)
 );
 
