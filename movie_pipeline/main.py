@@ -1,6 +1,7 @@
 """Implements the full ETl pipeline for movie data."""
 import os
 from dotenv import load_dotenv
+import sys
 from extract import (
     fetch_movie_genres,
     get_movie_ids_for_n_pages,
@@ -20,27 +21,30 @@ from load import (
 
 
 def main():
-    """Main ETL pipeline function."""
     load_dotenv()
 
-    # Extraction
     API_KEY = os.getenv("API_KEY")
     GENRES_API_URL = "https://api.themoviedb.org/3/genre/movie/list"
-    POPULAR_MOVIES_API_URL = "https://api.themoviedb.org/3/movie/popular"
-    TOP_RATED_API_URL = "https://api.themoviedb.org/3/movie/top_rated"
     MOVIE_DETAILS_API_URL = "https://api.themoviedb.org/3/movie"
 
     genres = fetch_movie_genres(GENRES_API_URL, API_KEY)
 
-    # Get from multiple sources
-    popular_ids = get_movie_ids_for_n_pages(
-        POPULAR_MOVIES_API_URL, API_KEY, n_pages=8)
-    top_rated_ids = get_movie_ids_for_n_pages(
-        TOP_RATED_API_URL, API_KEY, n_pages=8)
-
-    # Combine and deduplicate
-    all_movie_ids = list(set(popular_ids + top_rated_ids))
-    print(f"Fetching details for {len(all_movie_ids)} unique movies...")
+    # Check for --daily flag
+    if len(sys.argv) > 1 and sys.argv[1] == "--daily":
+        NOW_PLAYING_API_URL = "https://api.themoviedb.org/3/movie/now_playing"
+        all_movie_ids = get_movie_ids_for_n_pages(
+            NOW_PLAYING_API_URL, API_KEY, n_pages=2)
+        print(
+            f"Daily run: fetching {len(all_movie_ids)} now playing movies...")
+    else:
+        POPULAR_MOVIES_API_URL = "https://api.themoviedb.org/3/movie/popular"
+        TOP_RATED_API_URL = "https://api.themoviedb.org/3/movie/top_rated"
+        popular_ids = get_movie_ids_for_n_pages(
+            POPULAR_MOVIES_API_URL, API_KEY, n_pages=8)
+        top_rated_ids = get_movie_ids_for_n_pages(
+            TOP_RATED_API_URL, API_KEY, n_pages=8)
+        all_movie_ids = list(set(popular_ids + top_rated_ids))
+        print(f"Full run: fetching {len(all_movie_ids)} unique movies...")
 
     full_movie_data = get_full_movie_data_for_ids(
         MOVIE_DETAILS_API_URL, all_movie_ids, API_KEY)
