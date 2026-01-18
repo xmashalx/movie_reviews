@@ -11,10 +11,12 @@ from database import (
 )
 from os import environ as ENV
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 print("DB_HOST:", os.getenv("DATABASE_IP"))
 
+print("DB_HOST:", os.getenv("DATABASE_IP"))
 app = Flask(__name__)
 app.secret_key = ENV.get("SECRET_KEY")
 
@@ -137,6 +139,7 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('home'))
+
 
 
 if __name__ == '__main__':
