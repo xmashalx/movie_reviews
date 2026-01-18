@@ -107,6 +107,7 @@ def load_movies(movies: list[dict], director_name_to_id: dict, studio_name_to_id
         else:
             director_id = director_name_to_id.get(movie['director_name'])
             studio_id = studio_name_to_id.get(movie['studio_name'])
+            release_date = movie['release_date'] if movie['release_date'] else None
 
             cur.execute(
                 """
@@ -117,7 +118,7 @@ def load_movies(movies: list[dict], director_name_to_id: dict, studio_name_to_id
                 """,
                 (
                     movie['title'],
-                    movie['release_date'],
+                    release_date,
                     movie['score'],
                     movie['overview'],
                     studio_id,
