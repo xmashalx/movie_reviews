@@ -1,6 +1,6 @@
 """Movies API"""
 import os
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, flash
 from datetime import datetime
 from database import (
     get_db_connection, get_movies, get_genres_for_movies,
@@ -62,18 +62,27 @@ def movie_detail(id):
 
 @app.route('/movie/<id>/review', methods=['POST'])
 def post_review(id):
-    if 'user_id' not in session:  # Check login first!
+    if 'user_id' not in session:
         return redirect(url_for('login'))
+
     movie_id = int(id)
-    conn = get_db_connection(ENV)
-
     user_id = session['user_id']
-    rating = int(request.form['rating'])
-    review_text = request.form['review_text']
+    rating = request.form.get('rating')
+    review_text = request.form.get('review_text')
 
-    insert_review(conn, movie_id, user_id, rating, review_text)
+    if not rating:
+        flash('Please select a rating', 'error')
+        return redirect(url_for('movie_detail', id=movie_id))
+
+    if not review_text or review_text.strip() == '':
+        flash('Please write a review', 'error')
+        return redirect(url_for('movie_detail', id=movie_id))
+
+    conn = get_db_connection(ENV)
+    insert_review(conn, movie_id, user_id, int(rating), review_text)
     conn.close()
 
+    flash('Review submitted successfully!', 'success')
     return redirect(url_for('movie_detail', id=movie_id))
 
 
@@ -139,7 +148,6 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('home'))
-
 
 
 if __name__ == '__main__':

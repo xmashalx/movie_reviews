@@ -26,6 +26,16 @@
             </div>
     </nav>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-message flash-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <div class = "movie-heading">
         <h1>{{movie.title}}, {{movie.release_date.year}}</h1>
     </div>
