@@ -6,8 +6,12 @@
 }
 
 body {
-    background: radial-gradient(ellipse at top, #f3f3f6 0%, #0a0a2e 50%, #000008 100%);
+    background: 
+        radial-gradient(ellipse 30% 60% at 50% 0%, rgba(150, 200, 255, 0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 50% 0%, rgba(30, 100, 180, 0.4) 0%, transparent 60%),
+        linear-gradient(to bottom, #0a1628 0%, #040d18 50%, #000508 100%);
     min-height: 100vh;
+    background-attachment: fixed;
 }
 
 /* Navigation */
@@ -49,8 +53,8 @@ body {
 }
 
 .nav-menu a:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: #e9e8f5;
+    background-color: rgba(100, 180, 255, 0.15);
+    color: #7ec8ff;
 }
 
 .title-section {
@@ -64,6 +68,7 @@ body {
     margin-bottom: 0.5rem;
     font-weight: bold;
     color: #fff;
+    text-shadow: 0 0 40px rgba(100, 180, 255, 0.3);
 }
 
 .title-section p {
@@ -82,9 +87,9 @@ form {
 form input[type="text"],
 form select {
     padding: 0.75rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(100, 180, 255, 0.2);
     border-radius: 6px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(10, 30, 60, 0.6);
     color: #fff;
     font-size: 1rem;
 }
@@ -94,12 +99,13 @@ form input[type="text"] {
 
 form select {
     flex: 1;
+    max-width: 200px;
 }
 
 form button {
     padding: 0.75rem 2rem;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(100, 180, 255, 0.15);
+    border: 1px solid rgba(100, 180, 255, 0.3);
     color: #fff;
     border-radius: 6px;
     cursor: pointer;
@@ -107,7 +113,8 @@ form button {
 }
 
 form button:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(100, 180, 255, 0.25);
+    box-shadow: 0 0 20px rgba(100, 180, 255, 0.3);
 }
 
 .movies-grid {
@@ -134,7 +141,7 @@ form button:hover {
 
 .movie_card:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 40px rgba(100, 180, 255, 0.5);
 }
 
 /* Movie Detail Page Layout */
@@ -235,7 +242,7 @@ form button:hover {
 
 .user_card:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 40px rgba(100, 180, 255, 0.5);
 }
 
 .profile_heading {
@@ -436,4 +443,47 @@ form button:hover {
 
 .post_review button:hover {
     background-color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* Choices.js dark theme overrides */
+.choices__inner {
+    background-color: rgba(10, 30, 60, 0.6) !important;
+    border: 1px solid rgba(100, 180, 255, 0.2) !important;
+    border-radius: 6px !important;
+    color: #fff !important;
+}
+
+.choices__list--single .choices__item {
+    color: #fff !important;
+}
+
+.choices__input {
+    background-color: transparent !important;
+    color: #fff !important;
+}
+
+.choices__list--dropdown {
+    background-color: rgba(10, 30, 60, 0.95) !important;
+    border: 1px solid rgba(100, 180, 255, 0.2) !important;
+}
+
+.choices__list--dropdown .choices__item {
+    color: #fff !important;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+    background-color: rgba(100, 180, 255, 0.3) !important;
+}
+
+.choices {
+    flex: 1;
+    max-width: 200px;
+    margin-bottom: 0 !important;
+}
+
+.choices__inner {
+    min-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
 }

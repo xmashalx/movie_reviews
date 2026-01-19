@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -31,19 +33,19 @@
 
     <form action="/" method="GET">
         <input type="text" id="query" name="search" placeholder="Search...">
-        <select name="genre_id">
+        <select name="genre_id" id="genre-select">
             <option value="">Select a genre</option>
                 {% for genre in all_genres %}
             <option value="{{ genre.id }}">{{ genre.genre_name }}</option>
                 {% endfor %}
         </select>
-        <select name="director_id">
+        <select name="director_id" id="director-select">
             <option value="">Select a director</option>
                 {% for director in all_directors %}
             <option value="{{ director.id }}">{{ director.director_name }}</option>
                 {% endfor %}
         </select>
-        <select name="studio_id">
+        <select name="studio_id" id="studio-select">
             <option value="">Select a studio</option>
                 {% for studio in all_studios %}
             <option value="{{ studio.id }}">{{ studio.studio_name }}</option>
@@ -61,5 +63,10 @@
         </div>
         {% endfor %}
     </div>
+<script>
+    new Choices('#genre-select', { searchEnabled: true, itemSelectText: '' });
+    new Choices('#director-select', { searchEnabled: true, itemSelectText: '' });
+    new Choices('#studio-select', { searchEnabled: true, itemSelectText: '' });
+</script>
 </body>
 </html>
