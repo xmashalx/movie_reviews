@@ -12,6 +12,7 @@ from database import (
 from os import environ as ENV
 from dotenv import load_dotenv
 import os
+from flask_caching import Cache
 
 load_dotenv()
 print("DB_HOST:", os.getenv("DATABASE_IP"))
@@ -19,6 +20,10 @@ print("DB_HOST:", os.getenv("DATABASE_IP"))
 print("DB_HOST:", os.getenv("DATABASE_IP"))
 app = Flask(__name__)
 app.secret_key = ENV.get("SECRET_KEY")
+cache = Cache(app, config={
+    'CACHE_TYPE': 'simple',
+    'CACHE_DEFAULT_TIMEOUT': 300
+})
 
 
 @app.route('/')
@@ -30,12 +35,24 @@ def home():
 
     conn = get_db_connection(ENV)
 
-    movies = get_movies(conn, search, genre_id,
-                        director_id, studio_id)
+    # Always query movies (filtered or not)
+    movies = get_movies(conn, search, genre_id, director_id, studio_id)
 
-    all_genres = get_all_genres(conn)
-    all_directors = get_all_directors(conn)
-    all_studios = get_all_studios(conn)
+    # Cache the dropdowns - these rarely change
+    all_genres = cache.get('all_genres')
+    if all_genres is None:
+        all_genres = get_all_genres(conn)
+        cache.set('all_genres', all_genres)
+
+    all_directors = cache.get('all_directors')
+    if all_directors is None:
+        all_directors = get_all_directors(conn)
+        cache.set('all_directors', all_directors)
+
+    all_studios = cache.get('all_studios')
+    if all_studios is None:
+        all_studios = get_all_studios(conn)
+        cache.set('all_studios', all_studios)
 
     conn.close()
 
