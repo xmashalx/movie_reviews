@@ -26,6 +26,16 @@
             </div>
     </nav>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-message flash-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <div class="profile_heading">
         <h1>
             {{user_info.user_name}}
@@ -39,13 +49,18 @@
     </div>
 
     <div class="Reviews-container">
-        {% for review in user_reviews %}
-        <div class="reviews">
-            <p><a href="/movie/{{review.movie_id}}">{{review.title}}</a> - {{review.rating}}/5</p>
-            <p>{{review.review_text}}</p>
-            <p>{{review.created_at}}</p>
-        </div>
-        {% endfor %}
+    {% for review in user_reviews %}
+    <div class="reviews">
+        <p><a href="/movie/{{review.movie_id}}">{{review.title}}</a> - {{review.rating}}/5</p>
+        <p>{{review.review_text}}</p>
+        <p>{{review.created_at}}</p>
+        {% if session.user_id == user_info.id %}
+        <form action="/review/{{ review.id }}/delete" method="POST" class="delete-form">
+            <button type="submit" class="delete-btn">Delete</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
     </div>
 
 

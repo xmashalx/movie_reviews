@@ -282,3 +282,13 @@ def verify_user_credentials(conn: connection, username, password) -> bool:
         return results['id']
     else:
         return None
+
+
+def delete_review(conn: connection, review_id: int, user_id: int) -> bool:
+    """Delete a review - only if it belongs to the user"""
+    query = "DELETE FROM review WHERE id = %s AND user_id = %s RETURNING id;"
+    with conn.cursor() as cur:
+        cur.execute(query, (review_id, user_id))
+        result = cur.fetchone()
+    conn.commit()
+    return result is not None

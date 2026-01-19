@@ -3,7 +3,7 @@ import os
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 from datetime import datetime
 from database import (
-    get_db_connection, get_movies, get_movies_count,
+    delete_review, get_db_connection, get_movies, get_movies_count,
     get_movie_by_id, get_reviews_for_movie, insert_review,
     get_all_users, get_user_by_id, get_reviews_by_user,
     add_user, verify_user_credentials,
@@ -133,6 +133,26 @@ def user_profile(id):
     return render_template('user_profile.html',
                            user_info=user_info,
                            user_reviews=reviews)
+
+
+@app.route('/review/<id>/delete', methods=['POST'])
+def remove_review(id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    review_id = int(id)
+    user_id = session['user_id']
+
+    conn = get_db_connection(ENV)
+    deleted = delete_review(conn, review_id, user_id)
+    conn.close()
+
+    if deleted:
+        flash('Review deleted', 'success')
+    else:
+        flash('Could not delete review', 'error')
+
+    return redirect(url_for('user_profile', id=user_id))
 
 
 @app.route('/register', methods=['GET', 'POST'])
