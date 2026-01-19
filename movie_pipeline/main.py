@@ -40,9 +40,9 @@ def main():
         POPULAR_MOVIES_API_URL = "https://api.themoviedb.org/3/movie/popular"
         TOP_RATED_API_URL = "https://api.themoviedb.org/3/movie/top_rated"
         popular_ids = get_movie_ids_for_n_pages(
-            POPULAR_MOVIES_API_URL, API_KEY, n_pages=15)
+            POPULAR_MOVIES_API_URL, API_KEY, n_pages=50)
         top_rated_ids = get_movie_ids_for_n_pages(
-            TOP_RATED_API_URL, API_KEY, n_pages=15)
+            TOP_RATED_API_URL, API_KEY, n_pages=50)
         all_movie_ids = list(set(popular_ids + top_rated_ids))
         print(f"Full run: fetching {len(all_movie_ids)} unique movies...")
 
