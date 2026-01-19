@@ -8,7 +8,6 @@ def fetch_movie_genres(api_url, api_key):
     """Fetch movie genres from the developer API."""
     params = {"api_key": api_key}
     response = requests.get(api_url, params=params)
-    print(response.json())
     return response.json()['genres']
 
 
