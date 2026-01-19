@@ -3,7 +3,7 @@ import os
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 from datetime import datetime
 from database import (
-    get_db_connection, get_movies, get_genres_for_movies,
+    get_db_connection, get_movies, get_movies_count,
     get_movie_by_id, get_reviews_for_movie, insert_review,
     get_all_users, get_user_by_id, get_reviews_by_user,
     add_user, verify_user_credentials,
@@ -32,13 +32,18 @@ def home():
     genre_id = request.args.get('genre_id', None)
     director_id = request.args.get('director_id', None)
     studio_id = request.args.get('studio_id', None)
+    page = request.args.get('page', 1, type=int)
+    per_page = 50
 
     conn = get_db_connection(ENV)
 
-    # Always query movies (filtered or not)
-    movies = get_movies(conn, search, genre_id, director_id, studio_id)
+    movies = get_movies(conn, search, genre_id, director_id,
+                        studio_id, page, per_page)
+    total_movies = get_movies_count(
+        conn, search, genre_id, director_id, studio_id)
+    total_pages = (total_movies + per_page - 1) // per_page
 
-    # Cache the dropdowns - these rarely change
+    # Cache the dropdowns
     all_genres = cache.get('all_genres')
     if all_genres is None:
         all_genres = get_all_genres(conn)
@@ -60,7 +65,13 @@ def home():
                            movies=movies,
                            all_genres=all_genres,
                            all_directors=all_directors,
-                           all_studios=all_studios)
+                           all_studios=all_studios,
+                           page=page,
+                           total_pages=total_pages,
+                           search=search,
+                           genre_id=genre_id,
+                           director_id=director_id,
+                           studio_id=studio_id)
 
 
 @app.route('/movie/<id>')

@@ -507,3 +507,31 @@ form button:hover {
     border: 1px solid rgba(100, 255, 100, 0.5);
     color: #6bff6b;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.page-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: rgba(100, 180, 255, 0.15);
+    border: 1px solid rgba(100, 180, 255, 0.3);
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.page-btn:hover {
+    background-color: rgba(100, 180, 255, 0.25);
+    box-shadow: 0 0 20px rgba(100, 180, 255, 0.3);
+}
+
+.page-info {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+}

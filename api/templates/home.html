@@ -63,6 +63,19 @@
         </div>
         {% endfor %}
     </div>
+
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="/?page={{ page - 1 }}{% if search %}&search={{ search }}{% endif %}{% if genre_id %}&genre_id={{ genre_id }}{% endif %}{% if director_id %}&director_id={{ director_id }}{% endif %}{% if studio_id %}&studio_id={{ studio_id }}{% endif %}" class="page-btn">Previous</a>
+        {% endif %}
+
+        <span class="page-info">Page {{ page }} of {{ total_pages }}</span>
+
+        {% if page < total_pages %}
+        <a href="/?page={{ page + 1 }}{% if search %}&search={{ search }}{% endif %}{% if genre_id %}&genre_id={{ genre_id }}{% endif %}{% if director_id %}&director_id={{ director_id }}{% endif %}{% if studio_id %}&studio_id={{ studio_id }}{% endif %}" class="page-btn">Next</a>
+        {% endif %}
+    </div>
+
 <script>
     new Choices('#genre-select', { searchEnabled: true, itemSelectText: '' });
     new Choices('#director-select', { searchEnabled: true, itemSelectText: '' });

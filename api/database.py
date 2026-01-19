@@ -31,7 +31,8 @@ def get_db_connection(config: _Environ) -> connection:
 
 
 def get_movies(conn: connection, search: str = None, genre_id: int = None,
-               director_id: int = None, studio_id: int = None) -> list[dict]:
+               director_id: int = None, studio_id: int = None,
+               page: int = 1, per_page: int = 50) -> list[dict]:
     """get all movies in reviews and list them according to user search"""
     # setting up the query
     query = """
@@ -45,7 +46,7 @@ def get_movies(conn: connection, search: str = None, genre_id: int = None,
 
     # Add conditions only if parameters are provided
     if search:
-        conditions.append("m.title LIKE %s")
+        conditions.append("m.title ILIKE %s")
         params.append(f"%{search}%")
 
     if genre_id:
@@ -65,10 +66,51 @@ def get_movies(conn: connection, search: str = None, genre_id: int = None,
     if conditions:
         query += " WHERE " + " AND ".join(conditions)
 
+    # Add ordering and pagination
+    query += " ORDER BY m.release_date DESC"
+    query += " LIMIT %s OFFSET %s"
+    params.append(per_page)
+    params.append((page - 1) * per_page)
+
     # Execute
     with conn.cursor() as cur:
         cur.execute(query, params)
         return cur.fetchall()
+
+
+def get_movies_count(conn: connection, search: str = None, genre_id: int = None,
+                     director_id: int = None, studio_id: int = None) -> int:
+    """Get total count of movies matching the filters"""
+    query = """
+    SELECT COUNT(*) as count
+    FROM movie AS m
+    """
+    params = []
+    conditions = []
+
+    if search:
+        conditions.append("m.title ILIKE %s")
+        params.append(f"%{search}%")
+
+    if genre_id:
+        conditions.append(
+            "m.id IN (SELECT movie_id FROM movie_genres WHERE genre_id = %s)")
+        params.append(genre_id)
+
+    if director_id:
+        conditions.append("m.director_id = %s")
+        params.append(director_id)
+
+    if studio_id:
+        conditions.append("m.studio_id = %s")
+        params.append(studio_id)
+
+    if conditions:
+        query += " WHERE " + " AND ".join(conditions)
+
+    with conn.cursor() as cur:
+        cur.execute(query, params)
+        return cur.fetchone()['count']
 
 
 def get_genres_for_movies(conn: connection, movie_ids: list[int]) -> dict:
