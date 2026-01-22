@@ -67,7 +67,6 @@ def get_movies(conn: connection, search: str = None, genre_id: int = None,
         query += " WHERE " + " AND ".join(conditions)
 
     # Add ordering and pagination
-    query += " ORDER BY m.release_date DESC"
     query += " LIMIT %s OFFSET %s"
     params.append(per_page)
     params.append((page - 1) * per_page)
