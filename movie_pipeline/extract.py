@@ -40,10 +40,28 @@ def get_movie_ids_for_n_pages(api_url, api_key, n_pages):
 
 def get_pokemon_movie_ids(api_url, api_key):
     """Fetch movie IDs related to Pokemon."""
-    params = {"api_key": api_key, "query": "Pokemon", "page": 1}
-    response = requests.get(api_url, params=params)
-    search_results = response.json()
-    movie_ids = [movie["id"] for movie in search_results.get("results", [])]
+    movie_ids = []
+    page = 1
+
+    while True:
+        params = {"api_key": api_key, "query": "Pokemon", "page": page}
+        response = requests.get(api_url, params=params)
+        search_results = response.json()
+
+        results = search_results.get("results", [])
+        if not results:
+            break
+
+        for movie in results:
+            movie_ids.append(movie["id"])
+
+        # Check if we've reached the last page
+        if page >= search_results.get("total_pages", 1):
+            break
+
+        page += 1
+        time.sleep(0.25)  # Rate limiting
+
     return movie_ids
 
 
