@@ -39,7 +39,7 @@ def main():
             f"Daily run: fetching {len(all_movie_ids)} now playing movies...")
     # check for --pokemon flag
     elif len(sys.argv) > 1 and sys.argv[1] == "--pokemon":
-        search_api_url = "https://api.themoviedb.org/3/discover/movie"
+        search_api_url = "https://api.themoviedb.org/3/search/movie"
         all_movie_ids = get_pokemon_movie_ids(search_api_url, API_KEY)
         print(f"Pokemon run: fetching {len(all_movie_ids)} Pokemon movies...")
         # Full run
