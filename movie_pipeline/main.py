@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import sys
 from extract import (
-    get_pokemon_movie_ids,
+    get_movie_ids_by_search,
     fetch_movie_genres,
     get_movie_ids_for_n_pages,
     get_full_movie_data_for_ids)
@@ -37,12 +37,14 @@ def main():
             NOW_PLAYING_API_URL, API_KEY, n_pages=2)
         print(
             f"Daily run: fetching {len(all_movie_ids)} now playing movies...")
-    # check for --pokemon flag
-    elif len(sys.argv) > 1 and sys.argv[1] == "--pokemon":
+    # check for --search flag
+    elif len(sys.argv) > 1 and sys.argv[1] == "--search":
         search_api_url = "https://api.themoviedb.org/3/search/movie"
-        all_movie_ids = get_pokemon_movie_ids(search_api_url, API_KEY)
-        print(f"Pokemon run: fetching {len(all_movie_ids)} Pokemon movies...")
-        # Full run
+        all_movie_ids = get_movie_ids_by_search(
+            search_api_url, API_KEY, query=sys.argv[2] if len(sys.argv) > 2 else "barbie")
+        print(
+            f"Search run: fetching {len(all_movie_ids)} movies for query '{sys.argv[2] if len(sys.argv) > 2 else "barbie"}'...")
+    # Full run
     else:
         POPULAR_MOVIES_API_URL = "https://api.themoviedb.org/3/movie/popular"
         TOP_RATED_API_URL = "https://api.themoviedb.org/3/movie/top_rated"

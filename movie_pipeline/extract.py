@@ -38,13 +38,13 @@ def get_movie_ids_for_n_pages(api_url, api_key, n_pages):
     return movie_ids
 
 
-def get_pokemon_movie_ids(api_url, api_key):
-    """Fetch movie IDs related to Pokemon."""
+def get_movie_ids_by_search(api_url, api_key, query):
+    """Fetch movie IDs related to a search query."""
     movie_ids = []
     page = 1
 
     while True:
-        params = {"api_key": api_key, "query": "Pokemon", "page": page}
+        params = {"api_key": api_key, "query": query, "page": page}
         response = requests.get(api_url, params=params)
         search_results = response.json()
 
