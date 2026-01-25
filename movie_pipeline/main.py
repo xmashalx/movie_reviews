@@ -43,7 +43,7 @@ def main():
         all_movie_ids = get_movie_ids_by_search(
             search_api_url, API_KEY, query=sys.argv[2] if len(sys.argv) > 2 else "barbie")
         print(
-            f"Search run: fetching {len(all_movie_ids)} movies for query '{sys.argv[2] if len(sys.argv) > 2 else "barbie"}'...")
+            f"Search run: fetching {len(all_movie_ids)}")
     # Full run
     else:
         POPULAR_MOVIES_API_URL = "https://api.themoviedb.org/3/movie/popular"
